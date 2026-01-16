@@ -19,8 +19,9 @@ public class Incident {
     @JoinColumn(name = "asset_id", nullable = false)
     private Asset asset;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "priority", nullable = false)
-    private String priority;
+    private IncidentPriority priority;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
@@ -45,11 +46,11 @@ public class Incident {
         this.asset = asset;
     }
 
-    public String getPriority() {
+    public IncidentPriority getPriority() {
         return priority;
     }
 
-    public void setPriority(String priority) {
+    public void setPriority(IncidentPriority priority) {
         this.priority = priority;
     }
 
