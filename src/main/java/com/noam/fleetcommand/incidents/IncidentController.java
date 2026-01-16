@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/incidents")
+@RequestMapping("/api/incidents")
 public class IncidentController {
 
     private final IncidentService incidentService;
@@ -25,7 +25,7 @@ public class IncidentController {
     @PostMapping
     public ResponseEntity<Incident> createIncident(
             @RequestParam Long assetId,
-            @RequestParam String priority,
+            @RequestParam IncidentPriority priority,
             @RequestParam IncidentStatus status) {
 
         Incident created = incidentService.createIncident(assetId, priority, status);
@@ -45,6 +45,15 @@ public class IncidentController {
             @RequestParam IncidentStatus status) {
 
         Incident updated = incidentService.updateStatus(id, status);
+        return ResponseEntity.ok(updated);
+    }
+
+    @PatchMapping("/{id}/priority")
+    public ResponseEntity<Incident> updateIncidentPriority(
+            @PathVariable Long id,
+            @RequestParam IncidentPriority priority) {
+
+        Incident updated = incidentService.updatePriority(id, priority);
         return ResponseEntity.ok(updated);
     }
 
