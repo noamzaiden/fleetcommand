@@ -1,9 +1,9 @@
 package com.noam.fleetcommand.incidents;
 
 import com.noam.fleetcommand.assets.Asset;
-
 import jakarta.persistence.*;
-
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import java.time.LocalDateTime;
 
 
@@ -22,8 +22,10 @@ public class Incident {
     @Column(name = "priority", nullable = false)
     private String priority;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    private String status;
+    private IncidentStatus status;
+
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
@@ -51,13 +53,14 @@ public class Incident {
         this.priority = priority;
     }
 
-    public String getStatus() {
+    public IncidentStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(IncidentStatus status) {
         this.status = status;
     }
+
 
     public LocalDateTime getCreatedAt() {
         return createdAt;

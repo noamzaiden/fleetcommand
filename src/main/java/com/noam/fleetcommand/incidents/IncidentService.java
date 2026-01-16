@@ -17,7 +17,7 @@ public class IncidentService {
         this.assetRepository = assetRepository;
     }
 
-    public Incident createIncident(Long assetId, String priority, String status) {
+    public Incident createIncident(Long assetId, String priority, IncidentStatus status) {
         Asset asset = assetRepository.findById(assetId)
                 .orElseThrow(() -> new IllegalArgumentException("Asset not found: " + assetId));
 
@@ -37,5 +37,14 @@ public class IncidentService {
     public Optional<Incident> getIncidentById(Long id) {
         return incidentRepository.findById(id);
     }
+
+    public Incident updateStatus(Long incidentId, IncidentStatus status) {
+        Incident incident = incidentRepository.findById(incidentId)
+                .orElseThrow(() -> new IllegalArgumentException("Incident not found: " + incidentId));
+
+        incident.setStatus(status);
+        return incidentRepository.save(incident);
+    }
+
 
 }

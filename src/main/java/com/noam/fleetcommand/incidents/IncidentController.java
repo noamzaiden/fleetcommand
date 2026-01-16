@@ -26,7 +26,7 @@ public class IncidentController {
     public ResponseEntity<Incident> createIncident(
             @RequestParam Long assetId,
             @RequestParam String priority,
-            @RequestParam String status) {
+            @RequestParam IncidentStatus status) {
 
         Incident created = incidentService.createIncident(assetId, priority, status);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
@@ -37,6 +37,15 @@ public class IncidentController {
         return incidentService.getIncidentById(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<Incident> updateIncidentStatus(
+            @PathVariable Long id,
+            @RequestParam IncidentStatus status) {
+
+        Incident updated = incidentService.updateStatus(id, status);
+        return ResponseEntity.ok(updated);
     }
 
 }
