@@ -4,8 +4,9 @@ import com.noam.fleetcommand.assets.Asset;
 import com.noam.fleetcommand.assets.AssetRepository;
 import com.noam.fleetcommand.incidents.dto.IncidentRequestDto;
 import com.noam.fleetcommand.incidents.dto.IncidentResponseDto;
+import com.noam.fleetcommand.incidents.mapper.IncidentMapper;
 import org.springframework.stereotype.Service;
-import java.util.Optional;
+
 import java.util.List;
 
 @Service
@@ -13,59 +14,59 @@ public class IncidentService {
 
     private final IncidentRepository incidentRepository;
     private final AssetRepository assetRepository;
+    private final IncidentMapper incidentMapper;
 
-    public IncidentService(IncidentRepository incidentRepository, AssetRepository assetRepository) {
+    public IncidentService(
+            IncidentRepository incidentRepository,
+            AssetRepository assetRepository,
+            IncidentMapper incidentMapper
+    ) {
         this.incidentRepository = incidentRepository;
         this.assetRepository = assetRepository;
+        this.incidentMapper = incidentMapper;
     }
 
     public IncidentResponseDto createIncident(IncidentRequestDto request) {
-        Long assetId = request.getAssetId();
+        Asset asset = assetRepository.findById(request.getAssetId())
+                .orElseThrow(() -> new IllegalArgumentException("Asset not found: " + request.getAssetId()));
 
-        Asset asset = assetRepository.findById(assetId)
-                .orElseThrow(() -> new IllegalArgumentException("Asset not found: " + assetId));
-
-        Incident incident = new Incident();
-        incident.setAsset(asset);
-        incident.setPriority(request.getPriority());
-        incident.setStatus(request.getStatus());
-
+        Incident incident = incidentMapper.toEntity(request, asset);
         Incident saved = incidentRepository.save(incident);
 
-        return new IncidentResponseDto(
-                saved.getId(),
-                saved.getAsset().getId(),
-                saved.getPriority(),
-                saved.getStatus(),
-                saved.getCreatedAt()
-        );
+        return incidentMapper.toResponseDto(saved);
     }
 
-
-    public List<Incident> getIncidentsByAssetId(Long assetId) {
-        return incidentRepository.findByAssetId(assetId);
+    public List<IncidentResponseDto> getIncidentsByAssetId(Long assetId) {
+        return incidentRepository.findByAssetId(assetId)
+                .stream()
+                .map(incidentMapper::toResponseDto)
+                .toList();
     }
 
+    public IncidentResponseDto getIncidentById(Long id) {
+        Incident incident = incidentRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Incident not found: " + id));
 
-    public Optional<Incident> getIncidentById(Long id) {
-        return incidentRepository.findById(id);
+        return incidentMapper.toResponseDto(incident);
     }
 
-    public Incident updateStatus(Long incidentId, IncidentStatus status) {
+    public IncidentResponseDto updateStatus(Long incidentId, IncidentStatus status) {
         Incident incident = incidentRepository.findById(incidentId)
                 .orElseThrow(() -> new IllegalArgumentException("Incident not found: " + incidentId));
 
         incident.setStatus(status);
-        return incidentRepository.save(incident);
+        Incident saved = incidentRepository.save(incident);
+
+        return incidentMapper.toResponseDto(saved);
     }
-    public Incident updatePriority(Long incidentId, IncidentPriority priority) {
+
+    public IncidentResponseDto updatePriority(Long incidentId, IncidentPriority priority) {
         Incident incident = incidentRepository.findById(incidentId)
                 .orElseThrow(() -> new IllegalArgumentException("Incident not found: " + incidentId));
 
         incident.setPriority(priority);
-        return incidentRepository.save(incident);
+        Incident saved = incidentRepository.save(incident);
+
+        return incidentMapper.toResponseDto(saved);
     }
-
-
-
 }
