@@ -3,6 +3,7 @@ package com.noam.fleetcommand.assets;
 import com.noam.fleetcommand.assets.dto.AssetRequestDto;
 import com.noam.fleetcommand.assets.dto.AssetResponseDto;
 import com.noam.fleetcommand.assets.mapper.AssetMapper;
+import com.noam.fleetcommand.common.errors.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class AssetService {
 
     public AssetResponseDto getAssetById(Long id) {
         Asset asset = assetRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Asset not found: " + id));
+                .orElseThrow(() -> new NotFoundException("Asset not found: " + id));
 
         return assetMapper.toResponseDto(asset);
     }
