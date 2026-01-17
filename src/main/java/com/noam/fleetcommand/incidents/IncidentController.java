@@ -1,6 +1,7 @@
 package com.noam.fleetcommand.incidents;
 
 import com.noam.fleetcommand.incidents.dto.IncidentResponseDto;
+import com.noam.fleetcommand.incidents.dto.IncidentRequestDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,14 +30,11 @@ public class IncidentController {
     }
 
     @PostMapping
-    public ResponseEntity<IncidentResponseDto> createIncident(
-            @RequestParam Long assetId,
-            @RequestParam IncidentPriority priority,
-            @RequestParam IncidentStatus status) {
-
-        Incident created = incidentService.createIncident(assetId, priority, status);
-        return ResponseEntity.status(HttpStatus.CREATED).body(toResponseDto(created));
+    public ResponseEntity<IncidentResponseDto> createIncident(@RequestBody IncidentRequestDto request) {
+        IncidentResponseDto created = incidentService.createIncident(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<IncidentResponseDto> getIncidentById(@PathVariable Long id) {
