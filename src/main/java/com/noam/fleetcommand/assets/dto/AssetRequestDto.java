@@ -1,9 +1,16 @@
 package com.noam.fleetcommand.assets.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
+
 public class AssetRequestDto {
 
+    @NotBlank
     private String name;
+    @NotNull
     private Boolean trackingEnabled;
+
 
     public AssetRequestDto(){
 

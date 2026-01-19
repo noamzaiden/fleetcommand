@@ -2,11 +2,17 @@ package com.noam.fleetcommand.incidents.dto;
 
 import com.noam.fleetcommand.incidents.IncidentPriority;
 import com.noam.fleetcommand.incidents.IncidentStatus;
+import jakarta.validation.constraints.NotNull;
 
 public class IncidentRequestDto {
 
+    @NotNull(message = "assetId is required")
     private Long assetId;
+
+    @NotNull(message = "priority is required")
     private IncidentPriority priority;
+
+    @NotNull(message = "status is required")
     private IncidentStatus status;
 
     public IncidentRequestDto() {

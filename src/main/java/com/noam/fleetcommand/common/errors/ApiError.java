@@ -1,6 +1,7 @@
 package com.noam.fleetcommand.common.errors;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 public class ApiError {
 
@@ -9,13 +10,19 @@ public class ApiError {
     private final String error;
     private final String message;
     private final String path;
+    private final Map<String, String> validationErrors;
 
     public ApiError(int status, String error, String message, String path) {
+        this(status, error, message, path, null);
+    }
+
+    public ApiError(int status, String error, String message, String path, Map<String, String> validationErrors) {
         this.timestamp = LocalDateTime.now();
         this.status = status;
         this.error = error;
         this.message = message;
         this.path = path;
+        this.validationErrors = validationErrors;
     }
 
     public LocalDateTime getTimestamp() {
@@ -36,5 +43,9 @@ public class ApiError {
 
     public String getPath() {
         return path;
+    }
+
+    public Map<String, String> getValidationErrors() {
+        return validationErrors;
     }
 }

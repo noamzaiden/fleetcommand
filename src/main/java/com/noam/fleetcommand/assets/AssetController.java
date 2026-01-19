@@ -5,6 +5,7 @@ import com.noam.fleetcommand.assets.dto.AssetResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class AssetController {
     }
 
     @PostMapping
-    public ResponseEntity<AssetResponseDto> createAsset(@RequestBody AssetRequestDto request) {
+    public ResponseEntity<AssetResponseDto> createAsset(@Valid @RequestBody AssetRequestDto request) {
         AssetResponseDto created = assetService.createAsset(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }

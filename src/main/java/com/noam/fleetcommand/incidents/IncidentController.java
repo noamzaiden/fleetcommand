@@ -5,6 +5,7 @@ import com.noam.fleetcommand.incidents.dto.IncidentResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ public class IncidentController {
     }
 
     @PostMapping
-    public ResponseEntity<IncidentResponseDto> createIncident(@RequestBody IncidentRequestDto request) {
+    public ResponseEntity<IncidentResponseDto> createIncident(@Valid @RequestBody IncidentRequestDto request) {
         IncidentResponseDto created = incidentService.createIncident(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
