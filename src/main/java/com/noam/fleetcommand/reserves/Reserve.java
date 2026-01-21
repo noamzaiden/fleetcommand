@@ -1,4 +1,4 @@
-package com.noam.fleetcommand.assets;
+package com.noam.fleetcommand.reserves;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "assets")
-public class Asset {
+public class Reserve {
 
 
     @Id
@@ -34,7 +34,7 @@ public class Asset {
     @Column(name = "last_heartbeat")
     private LocalDateTime lastHeartbeat;
 
-    public Asset() {
+    public Reserve() {
     }
 
     public Long getId() {

@@ -1,12 +1,12 @@
-package com.noam.fleetcommand.assets.dto;
+package com.noam.fleetcommand.reserves.dto;
 
-public class AssetResponseDto {
+public class ReserveResponseDto {
 
     private Long id;
     private String name;
     private Boolean trackingEnabled;
 
-    public AssetResponseDto(Long id, String name, Boolean trackingEnabled) {
+    public ReserveResponseDto(Long id, String name, Boolean trackingEnabled) {
         this.id = id;
         this.name = name;
         this.trackingEnabled = trackingEnabled;
