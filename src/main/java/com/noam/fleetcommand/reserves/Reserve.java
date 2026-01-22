@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 
 @Entity
-@Table(name = "assets")
+@Table(name = "reserves")
 public class Reserve {
 
 

@@ -16,7 +16,7 @@ public class Incident {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "asset_id", nullable = false)
+    @JoinColumn(name = "reserve_id", nullable = false)
     private Reserve reserve;
 
     @Enumerated(EnumType.STRING)
