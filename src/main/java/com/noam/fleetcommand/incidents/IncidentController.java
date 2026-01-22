@@ -20,8 +20,8 @@ public class IncidentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<IncidentResponseDto>> getIncidentsByAssetId(@RequestParam Long assetId) {
-        return ResponseEntity.ok(incidentService.getIncidentsByAssetId(assetId));
+    public ResponseEntity<List<IncidentResponseDto>> getIncidentsByReserveId(@RequestParam Long reserveId) {
+        return ResponseEntity.ok(incidentService.getIncidentsByReserveId(reserveId));
     }
 
     @GetMapping("/{id}")

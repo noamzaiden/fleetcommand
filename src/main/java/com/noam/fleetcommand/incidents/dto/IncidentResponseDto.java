@@ -8,14 +8,14 @@ import java.time.LocalDateTime;
 public class IncidentResponseDto {
 
     private Long id;
-    private Long assetId;
+    private Long reserveId;
     private IncidentPriority priority;
     private IncidentStatus status;
     private LocalDateTime createdAt;
 
-    public IncidentResponseDto(Long id, Long assetId, IncidentPriority priority, IncidentStatus status, LocalDateTime createdAt) {
+    public IncidentResponseDto(Long id, Long reserveId, IncidentPriority priority, IncidentStatus status, LocalDateTime createdAt) {
         this.id = id;
-        this.assetId = assetId;
+        this.reserveId = reserveId;
         this.priority = priority;
         this.status = status;
         this.createdAt = createdAt;
@@ -25,8 +25,8 @@ public class IncidentResponseDto {
         return id;
     }
 
-    public Long getAssetId() {
-        return assetId;
+    public Long getReserveId() {
+        return reserveId;
     }
 
     public IncidentPriority getPriority() {

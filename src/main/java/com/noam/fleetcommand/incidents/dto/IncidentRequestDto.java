@@ -6,8 +6,8 @@ import jakarta.validation.constraints.NotNull;
 
 public class IncidentRequestDto {
 
-    @NotNull(message = "assetId is required")
-    private Long assetId;
+    @NotNull(message = "reserveId is required")
+    private Long reserveId;
 
     @NotNull(message = "priority is required")
     private IncidentPriority priority;
@@ -19,18 +19,18 @@ public class IncidentRequestDto {
 
     }
 
-    public IncidentRequestDto(Long assetId, IncidentPriority priority, IncidentStatus status) {
-        this.assetId = assetId;
+    public IncidentRequestDto(Long reserveId, IncidentPriority priority, IncidentStatus status) {
+        this.reserveId = reserveId;
         this.priority = priority;
         this.status = status;
     }
 
-    public Long getAssetId() {
-        return assetId;
+    public Long getReserveId() {
+        return reserveId;
     }
 
-    public void setAssetId(Long assetId) {
-        this.assetId = assetId;
+    public void setReserveId(Long reserveId) {
+        this.reserveId = reserveId;
     }
 
     public IncidentPriority getPriority() {

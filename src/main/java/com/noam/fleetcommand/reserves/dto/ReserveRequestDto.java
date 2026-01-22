@@ -1,10 +1,10 @@
-package com.noam.fleetcommand.assets.dto;
+package com.noam.fleetcommand.reserves.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 
-public class AssetRequestDto {
+public class ReserveRequestDto {
 
     @NotBlank
     private String name;
@@ -12,11 +12,11 @@ public class AssetRequestDto {
     private Boolean trackingEnabled;
 
 
-    public AssetRequestDto(){
+    public ReserveRequestDto(){
 
     }
 
-    public AssetRequestDto(String name, Boolean trackingEnabled) {
+    public ReserveRequestDto(String name, Boolean trackingEnabled) {
         this.name = name;
         this.trackingEnabled = trackingEnabled;
     }

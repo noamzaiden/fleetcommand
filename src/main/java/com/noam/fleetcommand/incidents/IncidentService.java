@@ -1,7 +1,7 @@
 package com.noam.fleetcommand.incidents;
 
-import com.noam.fleetcommand.assets.Asset;
-import com.noam.fleetcommand.assets.AssetRepository;
+import com.noam.fleetcommand.reserves.Reserve;
+import com.noam.fleetcommand.reserves.ReserveRepository;
 import com.noam.fleetcommand.common.errors.NotFoundException;
 import com.noam.fleetcommand.incidents.dto.IncidentRequestDto;
 import com.noam.fleetcommand.incidents.dto.IncidentResponseDto;
@@ -14,31 +14,31 @@ import java.util.List;
 public class IncidentService {
 
     private final IncidentRepository incidentRepository;
-    private final AssetRepository assetRepository;
+    private final ReserveRepository reserveRepository;
     private final IncidentMapper incidentMapper;
 
     public IncidentService(
             IncidentRepository incidentRepository,
-            AssetRepository assetRepository,
+            ReserveRepository reserveRepository,
             IncidentMapper incidentMapper
     ) {
         this.incidentRepository = incidentRepository;
-        this.assetRepository = assetRepository;
+        this.reserveRepository = reserveRepository;
         this.incidentMapper = incidentMapper;
     }
 
     public IncidentResponseDto createIncident(IncidentRequestDto request) {
-        Asset asset = assetRepository.findById(request.getAssetId())
-                .orElseThrow(() -> new NotFoundException("Asset not found: " + request.getAssetId()));
+        Reserve reserve = reserveRepository.findById(request.getReserveId())
+                .orElseThrow(() -> new NotFoundException("Reserve not found: " + request.getReserveId()));
 
-        Incident incident = incidentMapper.toEntity(request, asset);
+        Incident incident = incidentMapper.toEntity(request, reserve);
         Incident saved = incidentRepository.save(incident);
 
         return incidentMapper.toResponseDto(saved);
     }
 
-    public List<IncidentResponseDto> getIncidentsByAssetId(Long assetId) {
-        return incidentRepository.findByAssetId(assetId)
+    public List<IncidentResponseDto> getIncidentsByReserveId(Long reserveId) {
+        return incidentRepository.findByReserveId(reserveId)
                 .stream()
                 .map(incidentMapper::toResponseDto)
                 .toList();

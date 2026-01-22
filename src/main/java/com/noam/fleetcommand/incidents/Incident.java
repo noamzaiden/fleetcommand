@@ -1,6 +1,6 @@
 package com.noam.fleetcommand.incidents;
 
-import com.noam.fleetcommand.assets.Asset;
+import com.noam.fleetcommand.reserves.Reserve;
 import jakarta.persistence.*;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -17,7 +17,7 @@ public class Incident {
 
     @ManyToOne
     @JoinColumn(name = "asset_id", nullable = false)
-    private Asset asset;
+    private Reserve reserve;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "priority", nullable = false)
@@ -38,12 +38,12 @@ public class Incident {
         return id;
     }
 
-    public Asset getAsset() {
-        return asset;
+    public Reserve getReserve() {
+        return reserve;
     }
 
-    public void setAsset(Asset asset) {
-        this.asset = asset;
+    public void setReserve(Reserve reserve) {
+        this.reserve = reserve;
     }
 
     public IncidentPriority getPriority() {
