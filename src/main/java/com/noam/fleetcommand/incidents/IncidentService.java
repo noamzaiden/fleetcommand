@@ -1,73 +1,78 @@
 package com.noam.fleetcommand.incidents;
 
-import com.noam.fleetcommand.reserves.Reserve;
-import com.noam.fleetcommand.reserves.ReserveRepository;
 import com.noam.fleetcommand.common.errors.NotFoundException;
 import com.noam.fleetcommand.incidents.dto.IncidentRequestDto;
 import com.noam.fleetcommand.incidents.dto.IncidentResponseDto;
 import com.noam.fleetcommand.incidents.mapper.IncidentMapper;
+import com.noam.fleetcommand.reserves.Reserve;
+import com.noam.fleetcommand.reserves.ReserveRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class IncidentService {
 
     private final IncidentRepository incidentRepository;
     private final ReserveRepository reserveRepository;
     private final IncidentMapper incidentMapper;
 
-    public IncidentService(
-            IncidentRepository incidentRepository,
-            ReserveRepository reserveRepository,
-            IncidentMapper incidentMapper
-    ) {
-        this.incidentRepository = incidentRepository;
-        this.reserveRepository = reserveRepository;
-        this.incidentMapper = incidentMapper;
+    @Transactional
+    public IncidentResponseDto create(IncidentRequestDto requestDto) {
+        Incident incident = incidentMapper.toEntity(requestDto);
+        
+        Reserve reserve = reserveRepository.findById(requestDto.getReserveId())
+                .orElseThrow(() -> new NotFoundException("Reserve not found with id: " + requestDto.getReserveId()));
+        
+        incident.setReserve(reserve);
+        
+        Incident savedIncident = incidentRepository.save(incident);
+        return incidentMapper.toDto(savedIncident);
     }
 
-    public IncidentResponseDto createIncident(IncidentRequestDto request) {
-        Reserve reserve = reserveRepository.findById(request.getReserveId())
-                .orElseThrow(() -> new NotFoundException("Reserve not found: " + request.getReserveId()));
-
-        Incident incident = incidentMapper.toEntity(request, reserve);
-        Incident saved = incidentRepository.save(incident);
-
-        return incidentMapper.toResponseDto(saved);
-    }
-
-    public List<IncidentResponseDto> getIncidentsByReserveId(Long reserveId) {
-        return incidentRepository.findByReserveId(reserveId)
-                .stream()
-                .map(incidentMapper::toResponseDto)
-                .toList();
-    }
-
-    public IncidentResponseDto getIncidentById(Long id) {
+    public IncidentResponseDto getById(Long id) {
         Incident incident = incidentRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("Incident not found: " + id));
-
-        return incidentMapper.toResponseDto(incident);
+                .orElseThrow(() -> new NotFoundException("Incident not found with id: " + id));
+        return incidentMapper.toDto(incident);
     }
 
-    public IncidentResponseDto updateStatus(Long incidentId, IncidentStatus status) {
-        Incident incident = incidentRepository.findById(incidentId)
-                .orElseThrow(() -> new NotFoundException("Incident not found: " + incidentId));
+    public List<IncidentResponseDto> getAll() {
+        return incidentRepository.findAll().stream()
+                .map(incidentMapper::toDto)
+                .collect(Collectors.toList());
+    }
 
+    public List<IncidentResponseDto> getByReserveId(Long reserveId) {
+        return incidentRepository.findByReserveId(reserveId).stream()
+                .map(incidentMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public IncidentResponseDto updateStatus(Long id, IncidentStatus status) {
+        Incident incident = incidentRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Incident not found with id: " + id));
         incident.setStatus(status);
-        Incident saved = incidentRepository.save(incident);
-
-        return incidentMapper.toResponseDto(saved);
+        return incidentMapper.toDto(incidentRepository.save(incident));
     }
 
-    public IncidentResponseDto updatePriority(Long incidentId, IncidentPriority priority) {
-        Incident incident = incidentRepository.findById(incidentId)
-                .orElseThrow(() -> new NotFoundException("Incident not found: " + incidentId));
-
+    @Transactional
+    public IncidentResponseDto updatePriority(Long id, IncidentPriority priority) {
+        Incident incident = incidentRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Incident not found with id: " + id));
         incident.setPriority(priority);
-        Incident saved = incidentRepository.save(incident);
-
-        return incidentMapper.toResponseDto(saved);
+        return incidentMapper.toDto(incidentRepository.save(incident));
+    }
+    
+    @Transactional
+    public void delete(Long id) {
+        if (!incidentRepository.existsById(id)) {
+            throw new NotFoundException("Incident not found with id: " + id);
+        }
+        incidentRepository.deleteById(id);
     }
 }

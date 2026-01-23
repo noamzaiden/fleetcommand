@@ -20,18 +20,21 @@ public class IncidentController {
     }
 
     @GetMapping
-    public ResponseEntity<List<IncidentResponseDto>> getIncidentsByReserveId(@RequestParam Long reserveId) {
-        return ResponseEntity.ok(incidentService.getIncidentsByReserveId(reserveId));
+    public ResponseEntity<List<IncidentResponseDto>> getIncidents(@RequestParam(required = false) Long reserveId) {
+        if (reserveId != null) {
+            return ResponseEntity.ok(incidentService.getByReserveId(reserveId));
+        }
+        return ResponseEntity.ok(incidentService.getAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<IncidentResponseDto> getIncidentById(@PathVariable Long id) {
-        return ResponseEntity.ok(incidentService.getIncidentById(id));
+        return ResponseEntity.ok(incidentService.getById(id));
     }
 
     @PostMapping
     public ResponseEntity<IncidentResponseDto> createIncident(@Valid @RequestBody IncidentRequestDto request) {
-        IncidentResponseDto created = incidentService.createIncident(request);
+        IncidentResponseDto created = incidentService.create(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
@@ -49,5 +52,11 @@ public class IncidentController {
             @RequestParam IncidentPriority priority
     ) {
         return ResponseEntity.ok(incidentService.updatePriority(id, priority));
+    }
+    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteIncident(@PathVariable Long id) {
+        incidentService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }
