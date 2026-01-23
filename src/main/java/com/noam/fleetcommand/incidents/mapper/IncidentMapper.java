@@ -1,31 +1,19 @@
 package com.noam.fleetcommand.incidents.mapper;
 
-import com.noam.fleetcommand.reserves.Reserve;
 import com.noam.fleetcommand.incidents.Incident;
 import com.noam.fleetcommand.incidents.dto.IncidentRequestDto;
 import com.noam.fleetcommand.incidents.dto.IncidentResponseDto;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
-@Component
-public class IncidentMapper {
+@Mapper(componentModel = "spring")
+public interface IncidentMapper {
 
-    public Incident toEntity(IncidentRequestDto request, Reserve reserve) {
-        Incident incident = new Incident();
-        incident.setReserve(reserve);
-        incident.setPriority(request.getPriority());
-        incident.setStatus(request.getStatus());
-        return incident;
-    }
+    @Mapping(source = "reserve.id", target = "reserveId")
+    IncidentResponseDto toDto(Incident incident);
 
-    public IncidentResponseDto toResponseDto(Incident incident) {
-        Long reserveId = incident.getReserve() != null ? incident.getReserve().getId() : null;
-
-        return new IncidentResponseDto(
-                incident.getId(),
-                reserveId,
-                incident.getPriority(),
-                incident.getStatus(),
-                incident.getCreatedAt()
-        );
-    }
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "reserve", ignore = true)
+    Incident toEntity(IncidentRequestDto dto);
 }

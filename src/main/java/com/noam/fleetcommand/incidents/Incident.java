@@ -2,76 +2,37 @@ package com.noam.fleetcommand.incidents;
 
 import com.noam.fleetcommand.reserves.Reserve;
 import jakarta.persistence.*;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "incidents")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Incident {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reserve_id", nullable = false)
     private Reserve reserve;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "priority", nullable = false)
+    @Column(nullable = false)
     private IncidentPriority priority;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
+    @Column(nullable = false)
     private IncidentStatus status;
 
-
-    @Column(name = "created_at", nullable = false)
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
-
-    public Incident() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Reserve getReserve() {
-        return reserve;
-    }
-
-    public void setReserve(Reserve reserve) {
-        this.reserve = reserve;
-    }
-
-    public IncidentPriority getPriority() {
-        return priority;
-    }
-
-    public void setPriority(IncidentPriority priority) {
-        this.priority = priority;
-    }
-
-    public IncidentStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(IncidentStatus status) {
-        this.status = status;
-    }
-
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    @PrePersist
-    public void prePersist() {
-        if (createdAt == null) {
-            createdAt = LocalDateTime.now();
-        }
-    }
-
 }
