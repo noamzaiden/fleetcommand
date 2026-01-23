@@ -2,23 +2,27 @@ package com.noam.fleetcommand.reserves.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.Valid;
 
 
 public class ReserveRequestDto {
 
     @NotBlank
     private String name;
+
+    private String region;
+
     @NotNull
-    private Boolean trackingEnabled;
+    @Valid
+    private AreaDto area;
 
 
     public ReserveRequestDto(){
 
     }
 
-    public ReserveRequestDto(String name, Boolean trackingEnabled) {
+    public ReserveRequestDto(String name) {
         this.name = name;
-        this.trackingEnabled = trackingEnabled;
     }
 
     public void setName(String name){
@@ -29,11 +33,20 @@ public class ReserveRequestDto {
         return name;
     }
 
-    public void setTrackingEnabled(Boolean trackingEnabled){
-        this.trackingEnabled=trackingEnabled;
+    public String getRegion() {
+        return region;
     }
 
-    public Boolean getTrackingEnabled() {
-        return trackingEnabled;
+    public void setRegion(String region) {
+        this.region = region;
     }
+
+    public AreaDto getArea() {
+        return area;
+    }
+
+    public void setArea(AreaDto area) {
+        this.area = area;
+    }
+
 }

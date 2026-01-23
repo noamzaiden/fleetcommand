@@ -6,6 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 
 import java.time.LocalDateTime;
 
@@ -22,17 +23,14 @@ public class Reserve {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "tracking_enabled", nullable = false)
-    private Boolean trackingEnabled = false;
+    @Column(name = "region")
+    private String region;
 
-    @Column(name = "latitude")
-    private Double latitude;
+    @Embedded
+    private Area area;
 
-    @Column(name = "longitude")
-    private Double longitude;
-
-    @Column(name = "last_heartbeat")
-    private LocalDateTime lastHeartbeat;
+    @Column(name = "created_at", nullable = false, insertable = false, updatable = false)
+    private LocalDateTime createdAt;
 
     public Reserve() {
     }
@@ -48,38 +46,26 @@ public class Reserve {
     public void setName(String name) {
         this.name = name;
     }
-
-    public Boolean getTrackingEnabled() {
-        return trackingEnabled;
+    public String getRegion() {
+        return region;
     }
 
-    public void setTrackingEnabled(Boolean trackingEnabled) {
-        this.trackingEnabled = trackingEnabled;
+    public void setRegion(String region) {
+        this.region = region;
     }
 
-    public Double getLatitude() {
-        return latitude;
+    public Area getArea() {
+        return area;
     }
 
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
+    public void setArea(Area area) {
+        this.area = area;
     }
 
-    public Double getLongitude() {
-        return longitude;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
-
-    public LocalDateTime getLastHeartbeat() {
-        return lastHeartbeat;
-    }
-
-    public void setLastHeartbeat(LocalDateTime lastHeartbeat) {
-        this.lastHeartbeat = lastHeartbeat;
-    }
 
 
 }
