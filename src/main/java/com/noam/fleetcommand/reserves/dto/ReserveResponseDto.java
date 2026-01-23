@@ -1,26 +1,34 @@
 package com.noam.fleetcommand.reserves.dto;
 
+import java.time.LocalDateTime;
+
 public class ReserveResponseDto {
 
     private Long id;
     private String name;
-    private Boolean trackingEnabled;
+    private String region;
+    private AreaDto area;
+    private LocalDateTime createdAt;
 
-    public ReserveResponseDto(Long id, String name, Boolean trackingEnabled) {
+
+    public ReserveResponseDto(Long id, String name, String region, AreaDto area, LocalDateTime createdAt) {
         this.id = id;
         this.name = name;
-        this.trackingEnabled = trackingEnabled;
+        this.region = region;
+        this.area = area;
+        this.createdAt = createdAt;
     }
+
 
     public Long getId() {
         return id;
     }
-
     public String getName() {
         return name;
     }
+    public String getRegion() { return region; }
+    public AreaDto getArea() { return area; }
+    public LocalDateTime getCreatedAt() { return createdAt; }
 
-    public Boolean getTrackingEnabled() {
-        return trackingEnabled;
-    }
+
 }
