@@ -28,12 +28,14 @@ public class Reserve {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    public Reserve(Long id, String name, String region, Area area, LocalDateTime createdAt) {
-        this.id = id;
+    /**
+     * Updated constructor for creating a new Reserve.
+     * Fields managed by the database (id, createdAt) are excluded.
+     */
+    public Reserve(String name, String region, Area area) {
         this.name = name;
         this.region = region;
         this.area = area;
-        this.createdAt = createdAt;
     }
 
     public Long getId() {

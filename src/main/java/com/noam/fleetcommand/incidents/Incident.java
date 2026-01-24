@@ -32,12 +32,14 @@ public class Incident {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    public Incident(Long id, Reserve reserve, IncidentPriority priority, IncidentStatus status, LocalDateTime createdAt) {
-        this.id = id;
+    /**
+     * Updated constructor for creating a new Incident.
+     * Fields managed by the database (id, createdAt) are excluded to ensure data integrity.
+     */
+    public Incident(Reserve reserve, IncidentPriority priority, IncidentStatus status) {
         this.reserve = reserve;
         this.priority = priority;
         this.status = status;
-        this.createdAt = createdAt;
     }
 
     public Long getId() {
