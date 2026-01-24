@@ -2,7 +2,11 @@ package com.noam.fleetcommand.reserves;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.Getter;
+import lombok.Setter;
 
+@Setter
+@Getter
 @Embeddable
 public class Area {
 
@@ -21,35 +25,4 @@ public class Area {
     public Area() {
     }
 
-    public Double getMinLatitude() {
-        return minLatitude;
-    }
-
-    public void setMinLatitude(Double minLatitude) {
-        this.minLatitude = minLatitude;
-    }
-
-    public Double getMaxLatitude() {
-        return maxLatitude;
-    }
-
-    public void setMaxLatitude(Double maxLatitude) {
-        this.maxLatitude = maxLatitude;
-    }
-
-    public Double getMinLongitude() {
-        return minLongitude;
-    }
-
-    public void setMinLongitude(Double minLongitude) {
-        this.minLongitude = minLongitude;
-    }
-
-    public Double getMaxLongitude() {
-        return maxLongitude;
-    }
-
-    public void setMaxLongitude(Double maxLongitude) {
-        this.maxLongitude = maxLongitude;
-    }
 }

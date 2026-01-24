@@ -7,10 +7,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 
+@Getter
 @Entity
 @Table(name = "reserves")
 public class Reserve {
@@ -35,37 +37,17 @@ public class Reserve {
     public Reserve() {
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
     public void setName(String name) {
         this.name = name;
-    }
-    public String getRegion() {
-        return region;
     }
 
     public void setRegion(String region) {
         this.region = region;
     }
 
-    public Area getArea() {
-        return area;
-    }
-
     public void setArea(Area area) {
         this.area = area;
     }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
 
 
 }

@@ -1,7 +1,10 @@
 package com.noam.fleetcommand.reserves.dto;
 
+import lombok.Getter;
+
 import java.time.LocalDateTime;
 
+@Getter
 public class ReserveResponseDto {
 
     private Long id;
@@ -18,17 +21,6 @@ public class ReserveResponseDto {
         this.area = area;
         this.createdAt = createdAt;
     }
-
-
-    public Long getId() {
-        return id;
-    }
-    public String getName() {
-        return name;
-    }
-    public String getRegion() { return region; }
-    public AreaDto getArea() { return area; }
-    public LocalDateTime getCreatedAt() { return createdAt; }
 
 
 }
