@@ -6,9 +6,8 @@ import jakarta.validation.Valid;
 import lombok.Getter;
 import lombok.Setter;
 
-
-@Setter
 @Getter
+@Setter
 public class ReserveRequestDto {
 
     @NotBlank
@@ -20,13 +19,12 @@ public class ReserveRequestDto {
     @Valid
     private AreaDto area;
 
-
-    public ReserveRequestDto(){
-
+    public ReserveRequestDto() {
     }
 
-    public ReserveRequestDto(String name) {
+    public ReserveRequestDto(String name, String region, AreaDto area) {
         this.name = name;
+        this.region = region;
+        this.area = area;
     }
-
 }

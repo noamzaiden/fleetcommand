@@ -4,8 +4,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
 @Getter
+@Setter
 public class AreaDto {
 
     @NotNull
@@ -23,4 +23,10 @@ public class AreaDto {
     public AreaDto() {
     }
 
+    public AreaDto(Double minLatitude, Double maxLatitude, Double minLongitude, Double maxLongitude) {
+        this.minLatitude = minLatitude;
+        this.maxLatitude = maxLatitude;
+        this.minLongitude = minLongitude;
+        this.maxLongitude = maxLongitude;
+    }
 }

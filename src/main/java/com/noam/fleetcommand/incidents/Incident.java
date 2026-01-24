@@ -2,8 +2,6 @@ package com.noam.fleetcommand.incidents;
 
 import com.noam.fleetcommand.reserves.Reserve;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -11,9 +9,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "incidents")
-@Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class Incident {
 
     @Id
@@ -35,4 +31,62 @@ public class Incident {
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
+    public Incident(Long id, Reserve reserve, IncidentPriority priority, IncidentStatus status, LocalDateTime createdAt) {
+        this.id = id;
+        this.reserve = reserve;
+        this.priority = priority;
+        this.status = status;
+        this.createdAt = createdAt;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Reserve getReserve() {
+        return reserve;
+    }
+
+    public void setReserve(Reserve reserve) {
+        this.reserve = reserve;
+    }
+
+    public IncidentPriority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(IncidentPriority priority) {
+        this.priority = priority;
+    }
+
+    public IncidentStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(IncidentStatus status) {
+        this.status = status;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    @Override
+    public String toString() {
+        return "Incident{" +
+                "id=" + id +
+                ", priority=" + priority +
+                ", status=" + status +
+                ", createdAt=" + createdAt +
+                '}';
+    }
 }
