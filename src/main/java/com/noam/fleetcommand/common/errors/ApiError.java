@@ -2,6 +2,7 @@ package com.noam.fleetcommand.common.errors;
 
 import java.time.LocalDateTime;
 import java.util.Map;
+import java.util.Objects;
 
 public class ApiError {
 
@@ -47,5 +48,35 @@ public class ApiError {
 
     public Map<String, String> getValidationErrors() {
         return validationErrors;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ApiError apiError = (ApiError) o;
+        return status == apiError.status &&
+                Objects.equals(timestamp, apiError.timestamp) &&
+                Objects.equals(error, apiError.error) &&
+                Objects.equals(message, apiError.message) &&
+                Objects.equals(path, apiError.path) &&
+                Objects.equals(validationErrors, apiError.validationErrors);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(timestamp, status, error, message, path, validationErrors);
+    }
+
+    @Override
+    public String toString() {
+        return "ApiError{" +
+                "timestamp=" + timestamp +
+                ", status=" + status +
+                ", error='" + error + '\'' +
+                ", message='" + message + '\'' +
+                ", path='" + path + '\'' +
+                ", validationErrors=" + validationErrors +
+                '}';
     }
 }
