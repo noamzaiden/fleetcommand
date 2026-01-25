@@ -4,14 +4,20 @@ import com.noam.fleetcommand.incidents.IncidentPriority;
 import com.noam.fleetcommand.incidents.IncidentStatus;
 import lombok.Getter;
 import lombok.Setter;
-
+import jakarta.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Getter
 @Setter
 public class IncidentRequestDto {
+
+    @NotNull(message = "Reserve ID is required")
     private Long reserveId;
+
+    @NotNull(message = "Priority is required")
     private IncidentPriority priority;
+
+    @NotNull(message = "Status is required")
     private IncidentStatus status;
 
     public IncidentRequestDto() {
