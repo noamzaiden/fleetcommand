@@ -1,29 +1,21 @@
 package com.noam.fleetcommand.reserves;
 
+import com.noam.fleetcommand.common.errors.NotFoundException;
 import com.noam.fleetcommand.reserves.dto.ReserveRequestDto;
 import com.noam.fleetcommand.reserves.dto.ReserveResponseDto;
 import com.noam.fleetcommand.reserves.mapper.ReserveMapper;
-import com.noam.fleetcommand.common.errors.NotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import org.springframework.transaction.annotation.Transactional;
-
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ReserveService {
 
     private final ReserveRepository reserveRepository;
     private final ReserveMapper reserveMapper;
-    @PersistenceContext
-    private EntityManager entityManager;
-
-    public ReserveService(ReserveRepository reserveRepository, ReserveMapper reserveMapper) {
-        this.reserveRepository = reserveRepository;
-        this.reserveMapper = reserveMapper;
-    }
 
     public List<ReserveResponseDto> getAllReserves() {
         return reserveRepository.findAll()
@@ -43,14 +35,6 @@ public class ReserveService {
     public ReserveResponseDto createReserve(ReserveRequestDto request) {
         Reserve reserve = reserveMapper.toEntity(request);
         Reserve saved = reserveRepository.save(reserve);
-
-        entityManager.flush();
-        entityManager.clear();
-
-        Reserve reloaded = reserveRepository.findById(saved.getId())
-                .orElseThrow(() -> new NotFoundException("Reserve not found: " + saved.getId()));
-
-        return reserveMapper.toResponseDto(reloaded);
+        return reserveMapper.toResponseDto(saved);
     }
-
 }
