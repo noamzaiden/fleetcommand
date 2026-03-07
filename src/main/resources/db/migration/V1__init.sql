@@ -13,13 +13,13 @@ CREATE TABLE reserves (
     CONSTRAINT reserves_lon_bbox_chk CHECK (min_longitude < max_longitude)
 );
 
-CREATE TABLE incidents (
+CREATE TABLE events (
     id BIGSERIAL PRIMARY KEY,
     reserve_id BIGINT NOT NULL REFERENCES reserves(id),
     priority VARCHAR(20) NOT NULL,
     status VARCHAR(20) NOT NULL,
     created_at TIMESTAMP NOT NULL DEFAULT NOW(),
 
-    CONSTRAINT incidents_priority_chk CHECK (priority IN ('LOW', 'MEDIUM', 'HIGH')),
-    CONSTRAINT incidents_status_chk CHECK (status IN ('OPEN', 'IN_PROGRESS', 'CLOSED'))
+    CONSTRAINT events_priority_chk CHECK (priority IN ('LOW', 'MEDIUM', 'HIGH')),
+    CONSTRAINT events_status_chk CHECK (status IN ('OPEN', 'IN_PROGRESS', 'CLOSED'))
 );
