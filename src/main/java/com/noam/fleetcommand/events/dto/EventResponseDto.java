@@ -1,7 +1,7 @@
-package com.noam.fleetcommand.incidents.dto;
+package com.noam.fleetcommand.events.dto;
 
-import com.noam.fleetcommand.incidents.IncidentPriority;
-import com.noam.fleetcommand.incidents.IncidentStatus;
+import com.noam.fleetcommand.events.EventPriority;
+import com.noam.fleetcommand.events.EventStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,17 +10,17 @@ import java.util.Objects;
 
 @Getter
 @Setter
-public class IncidentResponseDto {
+public class EventResponseDto {
     private Long id;
     private Long reserveId;
-    private IncidentPriority priority;
-    private IncidentStatus status;
+    private EventPriority priority;
+    private EventStatus status;
     private LocalDateTime createdAt;
 
-    public IncidentResponseDto() {
+    public EventResponseDto() {
     }
 
-    public IncidentResponseDto(Long id, Long reserveId, IncidentPriority priority, IncidentStatus status, LocalDateTime createdAt) {
+    public EventResponseDto(Long id, Long reserveId, EventPriority priority, EventStatus status, LocalDateTime createdAt) {
         this.id = id;
         this.reserveId = reserveId;
         this.priority = priority;
@@ -32,7 +32,7 @@ public class IncidentResponseDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        IncidentResponseDto that = (IncidentResponseDto) o;
+        EventResponseDto that = (EventResponseDto) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(reserveId, that.reserveId) &&
                 priority == that.priority &&
@@ -47,7 +47,7 @@ public class IncidentResponseDto {
 
     @Override
     public String toString() {
-        return "IncidentResponseDto{" +
+        return "EventResponseDto{" +
                 "id=" + id +
                 ", reserveId=" + reserveId +
                 ", priority=" + priority +
