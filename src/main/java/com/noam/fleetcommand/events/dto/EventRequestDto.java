@@ -1,7 +1,7 @@
-package com.noam.fleetcommand.incidents.dto;
+package com.noam.fleetcommand.events.dto;
 
-import com.noam.fleetcommand.incidents.IncidentPriority;
-import com.noam.fleetcommand.incidents.IncidentStatus;
+import com.noam.fleetcommand.events.EventPriority;
+import com.noam.fleetcommand.events.EventStatus;
 import lombok.Getter;
 import lombok.Setter;
 import jakarta.validation.constraints.NotNull;
@@ -9,21 +9,21 @@ import java.util.Objects;
 
 @Getter
 @Setter
-public class IncidentRequestDto {
+public class EventRequestDto {
 
     @NotNull(message = "Reserve ID is required")
     private Long reserveId;
 
     @NotNull(message = "Priority is required")
-    private IncidentPriority priority;
+    private EventPriority priority;
 
     @NotNull(message = "Status is required")
-    private IncidentStatus status;
+    private EventStatus status;
 
-    public IncidentRequestDto() {
+    public EventRequestDto() {
     }
 
-    public IncidentRequestDto(Long reserveId, IncidentPriority priority, IncidentStatus status) {
+    public EventRequestDto(Long reserveId, EventPriority priority, EventStatus status) {
         this.reserveId = reserveId;
         this.priority = priority;
         this.status = status;
@@ -33,7 +33,7 @@ public class IncidentRequestDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        IncidentRequestDto that = (IncidentRequestDto) o;
+        EventRequestDto that = (EventRequestDto) o;
         return Objects.equals(reserveId, that.reserveId) &&
                 priority == that.priority &&
                 status == that.status;
@@ -46,7 +46,7 @@ public class IncidentRequestDto {
 
     @Override
     public String toString() {
-        return "IncidentRequestDto{" +
+        return "EventRequestDto{" +
                 "reserveId=" + reserveId +
                 ", priority=" + priority +
                 ", status=" + status +

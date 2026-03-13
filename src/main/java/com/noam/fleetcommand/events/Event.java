@@ -1,4 +1,4 @@
-package com.noam.fleetcommand.incidents;
+package com.noam.fleetcommand.events;
 
 import com.noam.fleetcommand.reserves.Reserve;
 import jakarta.persistence.*;
@@ -8,9 +8,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "incidents")
+@Table(name = "events")
 @NoArgsConstructor
-public class Incident {
+public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,21 +22,21 @@ public class Incident {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private IncidentPriority priority;
+    private EventPriority priority;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private IncidentStatus status;
+    private EventStatus status;
 
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     /**
-     * Updated constructor for creating a new Incident.
+     * Updated constructor for creating a new Event.
      * Fields managed by the database (id, createdAt) are excluded to ensure data integrity.
      */
-    public Incident(Reserve reserve, IncidentPriority priority, IncidentStatus status) {
+    public Event(Reserve reserve, EventPriority priority, EventStatus status) {
         this.reserve = reserve;
         this.priority = priority;
         this.status = status;
@@ -58,19 +58,19 @@ public class Incident {
         this.reserve = reserve;
     }
 
-    public IncidentPriority getPriority() {
+    public EventPriority getPriority() {
         return priority;
     }
 
-    public void setPriority(IncidentPriority priority) {
+    public void setPriority(EventPriority priority) {
         this.priority = priority;
     }
 
-    public IncidentStatus getStatus() {
+    public EventStatus getStatus() {
         return status;
     }
 
-    public void setStatus(IncidentStatus status) {
+    public void setStatus(EventStatus status) {
         this.status = status;
     }
 
@@ -84,7 +84,7 @@ public class Incident {
 
     @Override
     public String toString() {
-        return "Incident{" +
+        return "Event{" +
                 "id=" + id +
                 ", priority=" + priority +
                 ", status=" + status +
