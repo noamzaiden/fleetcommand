@@ -2,9 +2,12 @@ package com.noam.fleetcommand.events.dto;
 
 import com.noam.fleetcommand.events.EventPriority;
 import com.noam.fleetcommand.events.EventStatus;
+import com.noam.fleetcommand.events.EventType;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import jakarta.validation.constraints.NotNull;
+
 import java.util.Objects;
 
 @Getter
@@ -20,13 +23,33 @@ public class EventRequestDto {
     @NotNull(message = "Status is required")
     private EventStatus status;
 
+    @NotNull(message = "Type is required")
+    private EventType type;
+
+    @Size(max = 1000, message = "Description must not exceed 1000 characters")
+    private String description;
+
+    @NotNull(message = "Latitude is required")
+    private Double latitude;
+
+    @NotNull(message = "Longitude is required")
+    private Double longitude;
+
+    private Long assignedUserId;
+
     public EventRequestDto() {
     }
 
-    public EventRequestDto(Long reserveId, EventPriority priority, EventStatus status) {
+    public EventRequestDto(Long reserveId, EventPriority priority, EventStatus status, EventType type,
+                           String description, Double latitude, Double longitude, Long assignedUserId) {
         this.reserveId = reserveId;
         this.priority = priority;
         this.status = status;
+        this.type = type;
+        this.description = description;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.assignedUserId = assignedUserId;
     }
 
     @Override
@@ -34,14 +57,19 @@ public class EventRequestDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         EventRequestDto that = (EventRequestDto) o;
-        return Objects.equals(reserveId, that.reserveId) &&
-                priority == that.priority &&
-                status == that.status;
+        return Objects.equals(reserveId, that.reserveId)
+                && priority == that.priority
+                && status == that.status
+                && type == that.type
+                && Objects.equals(description, that.description)
+                && Objects.equals(latitude, that.latitude)
+                && Objects.equals(longitude, that.longitude)
+                && Objects.equals(assignedUserId, that.assignedUserId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(reserveId, priority, status);
+        return Objects.hash(reserveId, priority, status, type, description, latitude, longitude, assignedUserId);
     }
 
     @Override
@@ -50,6 +78,11 @@ public class EventRequestDto {
                 "reserveId=" + reserveId +
                 ", priority=" + priority +
                 ", status=" + status +
+                ", type=" + type +
+                ", description='" + description + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", assignedUserId=" + assignedUserId +
                 '}';
     }
 }
