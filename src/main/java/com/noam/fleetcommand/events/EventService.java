@@ -6,6 +6,8 @@ import com.noam.fleetcommand.events.dto.EventResponseDto;
 import com.noam.fleetcommand.events.mapper.EventMapper;
 import com.noam.fleetcommand.reserves.Reserve;
 import com.noam.fleetcommand.reserves.ReserveRepository;
+import com.noam.fleetcommand.users.User;
+import com.noam.fleetcommand.users.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,17 +21,24 @@ public class EventService {
 
     private final EventRepository eventRepository;
     private final ReserveRepository reserveRepository;
+    private final UserRepository userRepository;
     private final EventMapper eventMapper;
 
     @Transactional
     public EventResponseDto create(EventRequestDto requestDto) {
         Event event = eventMapper.toEntity(requestDto);
-        
+
         Reserve reserve = reserveRepository.findById(requestDto.getReserveId())
                 .orElseThrow(() -> new NotFoundException("Reserve not found with id: " + requestDto.getReserveId()));
-        
+
         event.setReserve(reserve);
-        
+
+        if (requestDto.getAssignedUserId() != null) {
+            User assignedUser = userRepository.findById(requestDto.getAssignedUserId())
+                    .orElseThrow(() -> new NotFoundException("User not found with id: " + requestDto.getAssignedUserId()));
+            event.setAssignedUser(assignedUser);
+        }
+
         Event savedEvent = eventRepository.save(event);
         return eventMapper.toDto(savedEvent);
     }
@@ -57,6 +66,11 @@ public class EventService {
         Event event = eventRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Event not found with id: " + id));
         event.setStatus(status);
+        if (status == EventStatus.CLOSED) {
+            event.setClosedAt(java.time.LocalDateTime.now());
+        } else {
+            event.setClosedAt(null);
+        }
         return eventMapper.toDto(eventRepository.save(event));
     }
 
@@ -67,7 +81,7 @@ public class EventService {
         event.setPriority(priority);
         return eventMapper.toDto(eventRepository.save(event));
     }
-    
+
     @Transactional
     public void delete(Long id) {
         if (!eventRepository.existsById(id)) {

@@ -10,10 +10,14 @@ import org.mapstruct.Mapping;
 public interface EventMapper {
 
     @Mapping(source = "reserve.id", target = "reserveId")
+    @Mapping(source = "assignedUser.id", target = "assignedUserId")
     EventResponseDto toDto(Event event);
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "closedAt", ignore = true)
     @Mapping(target = "reserve", ignore = true)
+    @Mapping(target = "assignedUser", ignore = true)
     Event toEntity(EventRequestDto dto);
 }
