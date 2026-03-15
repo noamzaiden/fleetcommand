@@ -68,6 +68,8 @@ public class EventService {
         event.setStatus(status);
         if (status == EventStatus.CLOSED) {
             event.setClosedAt(java.time.LocalDateTime.now());
+        } else {
+            event.setClosedAt(null);
         }
         return eventMapper.toDto(eventRepository.save(event));
     }

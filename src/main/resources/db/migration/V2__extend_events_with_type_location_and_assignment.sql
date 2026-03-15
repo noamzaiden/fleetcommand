@@ -14,4 +14,11 @@ ALTER TABLE events
 
 ALTER TABLE events
     ADD CONSTRAINT events_type_chk CHECK (type IN ('FIRE', 'BLOCKAGE', 'OTHER')),
+    ADD CONSTRAINT events_latitude_chk CHECK (latitude BETWEEN -90 AND 90),
+    ADD CONSTRAINT events_longitude_chk CHECK (longitude BETWEEN -180 AND 180),
     ADD CONSTRAINT events_assigned_user_fk FOREIGN KEY (assigned_user_id) REFERENCES users(id);
+
+ALTER TABLE events
+    ALTER COLUMN latitude DROP DEFAULT,
+    ALTER COLUMN longitude DROP DEFAULT,
+    ALTER COLUMN type DROP DEFAULT;
